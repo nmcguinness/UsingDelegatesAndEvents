@@ -1,10 +1,30 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using SharpDX.Direct3D11;
+using System;
 using System.Collections.Generic;
 
 namespace UsingDelegatesAndEvents
 {
+    public struct Bike
+    {
+        string make;
+        int gears;
+        float price;
+      
+        public string Make { get => make; set => make = value; }
+        public int Gears { get => gears; set => gears = value; }
+        public float Price { get => price; set => price = value; }
+
+        public Bike(string make, int gears, float price) : this()
+        {
+            Make = make;
+            Gears = gears;
+            Price = price;
+        }
+    }
+
     public class Game1 : Game
     {
         private GraphicsDeviceManager _graphics;
@@ -18,8 +38,7 @@ namespace UsingDelegatesAndEvents
         }
 
         public delegate void PrintDelegate(string msg);
-        private delegate int SortDelegate(int x, int y);
-
+        public delegate int SortDelegate(int x, int y);
         public void Display(string x)
         {
             System.Diagnostics.Debug.WriteLine(x);
@@ -33,8 +52,60 @@ namespace UsingDelegatesAndEvents
             foreach(string s in list)
                 del(s);
         }
+
+        public delegate int SortComparatorDelegate(Bike a, Bike b);
+        public int SortByGears(Bike a, Bike b)
+        {
+            return a.Gears - b.Gears;
+        }
+        public int SortByPrice(Bike a, Bike b)
+        {
+            return (int)(a.Price - b.Price);
+        }
+
+        public void Sort(List<Bike> list, SortComparatorDelegate sorter)
+        {
+            //list.Sort(sorter);
+            //bubble sort
+        //    for ()
+        //        for ()
+        //            if (sorter(list[j], list[j + 1] < 0))
+        //                swap(list[j], list[j + 1]);
+        }
+                  
+        public bool isOdd(int x)
+        {
+            return x % 2 == 1;
+        }
+
+        public void doSomething(int a, bool b, char c, Predicate<int> pred)
+        {
+            pred(a);
+        }
+
+        //C# this is Action, C++ this is a procedure
+        public void RingBell(float freq, int duration)
+        {
+            System.Diagnostics.Debug.WriteLine("Bell is ringing...");
+        }
+
+        public void Transform<E>(List<E> list, 
+            Predicate<E> pred, Action<E> transform)
+        {
+
+        }
+
         protected override void Initialize()
         {
+            Predicate<int> myPred = isOdd;
+
+            Action<float, int> myBellPred = RingBell;
+
+
+
+
+
+
             PrintDelegate p = new PrintDelegate(Display);
             p("Hello world!");
 
