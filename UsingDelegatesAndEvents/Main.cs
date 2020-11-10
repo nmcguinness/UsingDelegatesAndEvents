@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using SharpDX.Direct3D11;
 using System;
 using System.Collections.Generic;
 
@@ -91,6 +90,12 @@ namespace UsingDelegatesAndEvents
 
         }
 
+        public bool DisplayAge(string name, int age)
+        {
+            System.Diagnostics.Debug.WriteLine(name + ", " + age);
+            return true;
+        }
+
         protected override void Initialize()
         {
             /*
@@ -100,7 +105,7 @@ namespace UsingDelegatesAndEvents
                       1. Pointers to functions
                       2. Functors
                       3. STL Library (e.g. function, binary_function)
-                      4. Templated class function<>
+                      4. Lambda functions
 
                  In C# we have...
                       1. Delegate
@@ -130,37 +135,44 @@ namespace UsingDelegatesAndEvents
 
             /******************** Demo Func ********************/
             //to do...
+            Func<string, int, bool> myFunc = DisplayAge;
+            myFunc("mary", 22);
 
-
-
+            Func<Dictionary<string, int>, List<Bike>, bool> myComplexFunc;
 
             base.Initialize();
-}
+    }
 
-protected override void LoadContent()
-{
-_spriteBatch = new SpriteBatch(GraphicsDevice);
+        public void ShowAllAges(List<string> names, List<int> ages, Func<string, int, bool> func)
+        {
 
-// TODO: use this.Content to load your game content here
-}
+        }
 
-protected override void Update(GameTime gameTime)
-{
-if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-    Exit();
 
-// TODO: Add your update logic here
+        protected override void LoadContent()
+        {
+        _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-base.Update(gameTime);
-}
+        // TODO: use this.Content to load your game content here
+        }
 
-protected override void Draw(GameTime gameTime)
-{
-GraphicsDevice.Clear(Color.CornflowerBlue);
+        protected override void Update(GameTime gameTime)
+        {
+        if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            Exit();
 
-// TODO: Add your drawing code here
+        // TODO: Add your update logic here
 
-base.Draw(gameTime);
-}
-}
+        base.Update(gameTime);
+        }
+
+        protected override void Draw(GameTime gameTime)
+        {
+        GraphicsDevice.Clear(Color.CornflowerBlue);
+
+        // TODO: Add your drawing code here
+
+        base.Draw(gameTime);
+        }
+    }
 }
