@@ -25,12 +25,12 @@ namespace UsingDelegatesAndEvents
         }
     }
 
-    public class Game1 : Game
+    public class Main : Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        public Game1()
+        public Main()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -62,7 +62,6 @@ namespace UsingDelegatesAndEvents
         {
             return (int)(a.Price - b.Price);
         }
-
         public void Sort(List<Bike> list, SortComparatorDelegate sorter)
         {
             //list.Sort(sorter);
@@ -71,13 +70,11 @@ namespace UsingDelegatesAndEvents
         //        for ()
         //            if (sorter(list[j], list[j + 1] < 0))
         //                swap(list[j], list[j + 1]);
-        }
-                  
+        }              
         public bool isOdd(int x)
         {
             return x % 2 == 1;
         }
-
         public void doSomething(int a, bool b, char c, Predicate<int> pred)
         {
             pred(a);
@@ -89,79 +86,81 @@ namespace UsingDelegatesAndEvents
             System.Diagnostics.Debug.WriteLine("Bell is ringing...");
         }
 
-        public void Transform<E>(List<E> list, 
-            Predicate<E> pred, Action<E> transform)
+        public void Transform<E>(List<E> list, Predicate<E> pred, Action<E> transform)
         {
 
         }
 
         protected override void Initialize()
         {
-            Predicate<int> myPred = isOdd;
+            /*
 
-            Action<float, int> myBellPred = RingBell;
+              Q. How can we pass a function as a parameter to another function?
+              A. In C++ we have...
+                      1. Pointers to functions
+                      2. Functors
+                      3. STL Library (e.g. function, binary_function)
+                      4. Templated class function<>
 
+                 In C# we have...
+                      1. Delegate
+                      2. Predicate
+                      3. Action
+                      4. Function
 
+              What is a delegate?
+                  - A data type
+                  - A reference type (refers to an object/function in RAM/call stack)
+           */
 
-
-
-
+            /******************** Demo Delegate ********************/
+            //instanciating and initializing a Delegate
             PrintDelegate p = new PrintDelegate(Display);
+            //invoking a Delegate
             p("Hello world!");
 
-          //  Process(list, p);
+            /******************** Demo Predicate & Action ********************/
+            //instanciating and initializing a Predicate and an Action
+            Predicate<int> myPred = isOdd;
+            Action<float, int> myBellPred = RingBell;
 
-            /*
-             
-                Q. How can we pass a function as a parameter to another function?
-                A. In C++ we have...
-                        1. Pointers to functions
-                        2. Functors
-                        3. STL Library (e.g. function, binary_function)
-                        4. Templated class function<>
-                    
-                   In C# we have...
-                        1. Delegate
-                            2. Predicate
-                            3. Action
+            //invoking a Predicate and an Action
+            myPred(31);
+            myBellPred(25, 100);
 
-                What is a delegate?
-                    - A data type
-                    - A reference type (refers to an object/function in RAM/call stack)
-             */
-
-
+            /******************** Demo Func ********************/
+            //to do...
 
 
 
 
             base.Initialize();
-        }
+}
 
-        protected override void LoadContent()
-        {
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
+protected override void LoadContent()
+{
+_spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
-        }
+// TODO: use this.Content to load your game content here
+}
 
-        protected override void Update(GameTime gameTime)
-        {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+protected override void Update(GameTime gameTime)
+{
+if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+    Exit();
 
-            // TODO: Add your update logic here
+// TODO: Add your update logic here
 
-            base.Update(gameTime);
-        }
+base.Update(gameTime);
+}
 
-        protected override void Draw(GameTime gameTime)
-        {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+protected override void Draw(GameTime gameTime)
+{
+GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+// TODO: Add your drawing code here
 
-            base.Draw(gameTime);
-        }
-    }
+base.Draw(gameTime);
+}
+}
 }
