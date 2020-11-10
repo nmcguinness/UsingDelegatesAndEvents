@@ -38,7 +38,7 @@ namespace UsingDelegatesAndEvents
 
         public delegate void PrintDelegate(string msg);
         public delegate int SortDelegate(int x, int y);
-        //add new delegate void XXXX(string msg)
+        public delegate void EventHandlerDelegate(string msg);
 
         public void Display(string x)
         {
@@ -167,7 +167,11 @@ namespace UsingDelegatesAndEvents
 
             /******************** Demo Dictionary of List of Delegate(s) ********************/
 
-            //declare a dictionary, delDict, which stores [string, list of XXXX delegates]
+            //declare a dictionary, delDict, which stores [string, list of EventHandlerDelegate delegates]
+
+
+
+
 
             base.Initialize();
     }
