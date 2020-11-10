@@ -38,6 +38,8 @@ namespace UsingDelegatesAndEvents
 
         public delegate void PrintDelegate(string msg);
         public delegate int SortDelegate(int x, int y);
+        //add new delegate void XXXX(string msg)
+
         public void Display(string x)
         {
             System.Diagnostics.Debug.WriteLine(x);
@@ -137,11 +139,51 @@ namespace UsingDelegatesAndEvents
             //to do...
             Func<string, int, bool> myFunc = DisplayAge;
             myFunc("mary", 22);
-
             Func<Dictionary<string, int>, List<Bike>, bool> myComplexFunc;
+            /******************** Demo Dictionary of Func(s) ********************/
+            //declare a dictionary, funcDict, which stores [string, function(int, bool)]
+            Dictionary<string, Func<int, bool>> funcDict = new Dictionary<string, Func<int, bool>>();
+
+            //add 2 functions
+            funcDict.Add("A", DoSomethingA);
+            funcDict.Add("B", DoSomethingB);
+
+            //call/invoke one of the functions
+            Func<int, bool> func = funcDict["A"];
+            funcDict["A"](50);
+            func(100);
+
+
+            /******************** Demo Dictionary of List of Func(s) ********************/
+            Dictionary<string, List<Func<int, bool>>> funcListDict 
+                                    = new Dictionary<string, List<Func<int, bool>>>();
+
+            if (!funcListDict.ContainsKey("Cinema"))
+                funcListDict.Add("A", new List<Func<int, bool>>());
+
+            List<Func<int, bool>> list = funcListDict["Cinema"];
+            list.Add(DoSomethingA);
+            list.Add(DoSomethingB);
+
+            /******************** Demo Dictionary of List of Delegate(s) ********************/
+
+            //declare a dictionary, delDict, which stores [string, list of XXXX delegates]
 
             base.Initialize();
     }
+
+        public bool DoSomethingA(int a)
+        {
+            System.Diagnostics.Debug.WriteLine(a);
+            return false;
+        }
+        public bool DoSomethingB(int a)
+        {
+            System.Diagnostics.Debug.WriteLine(a);
+            return false;
+        }
+
+
 
         public void ShowAllAges(List<string> names, List<int> ages, Func<string, int, bool> func)
         {
