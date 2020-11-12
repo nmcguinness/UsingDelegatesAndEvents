@@ -179,7 +179,6 @@ namespace UsingDelegatesAndEvents
 
             List<EventHandlerDelegate> list2 = delDict["Cinema"];
             list2.Add(DoSomethingC);
-
             base.Initialize();
     }
 
