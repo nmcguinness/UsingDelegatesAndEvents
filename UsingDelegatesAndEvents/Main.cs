@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 
 namespace UsingDelegatesAndEvents
 {
@@ -39,6 +40,8 @@ namespace UsingDelegatesAndEvents
         public delegate void PrintDelegate(string msg);
         public delegate int SortDelegate(int x, int y);
         public delegate void EventHandlerDelegate(string msg);
+    //    public delegate void FinalEventHandlerDelegate(EventData event);
+
 
         public void Display(string x)
         {
@@ -161,20 +164,30 @@ namespace UsingDelegatesAndEvents
             if (!funcListDict.ContainsKey("Cinema"))
                 funcListDict.Add("A", new List<Func<int, bool>>());
 
-            List<Func<int, bool>> list = funcListDict["Cinema"];
-            list.Add(DoSomethingA);
-            list.Add(DoSomethingB);
+            List<Func<int, bool>> list1 = funcListDict["Cinema"];
+            list1.Add(DoSomethingA);
+            list1.Add(DoSomethingB);
 
             /******************** Demo Dictionary of List of Delegate(s) ********************/
 
             //declare a dictionary, delDict, which stores [string, list of EventHandlerDelegate delegates]
+            Dictionary<string, List<EventHandlerDelegate>> delDict
+                                   = new Dictionary<string, List<EventHandlerDelegate>>();
 
+            if (!delDict.ContainsKey("Cinema"))
+                delDict.Add("A", new List<EventHandlerDelegate>());
 
-
-
+            List<EventHandlerDelegate> list2 = delDict["Cinema"];
+            list2.Add(DoSomethingC);
 
             base.Initialize();
     }
+
+        public void DoSomethingC(string a)
+        {
+            System.Diagnostics.Debug.WriteLine(a);
+        }
+
 
         public bool DoSomethingA(int a)
         {
