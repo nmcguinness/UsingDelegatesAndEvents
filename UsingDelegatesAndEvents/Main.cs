@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Tracing;
 
 namespace UsingDelegatesAndEvents
 {
@@ -25,6 +24,19 @@ namespace UsingDelegatesAndEvents
         }
     }
 
+    //demo dictionary of delegates
+    public enum EventCategoryType
+    {
+        Camera,
+        Player,
+        NonPlayer,
+        Pickup,
+        Sound,
+        Menu,
+        UI,
+        Object
+    }
+    
     public class Main : Game
     {
         private GraphicsDeviceManager _graphics;
@@ -41,7 +53,6 @@ namespace UsingDelegatesAndEvents
         public delegate int SortDelegate(int x, int y);
         public delegate void EventHandlerDelegate(string msg);
     //    public delegate void FinalEventHandlerDelegate(EventData event);
-
 
         public void Display(string x)
         {
@@ -171,16 +182,43 @@ namespace UsingDelegatesAndEvents
             /******************** Demo Dictionary of List of Delegate(s) ********************/
 
             //declare a dictionary, delDict, which stores [string, list of EventHandlerDelegate delegates]
-            Dictionary<string, List<EventHandlerDelegate>> delDict
+            Dictionary<string, List<EventHandlerDelegate>> delDict1
                                    = new Dictionary<string, List<EventHandlerDelegate>>();
 
-            if (!delDict.ContainsKey("Cinema"))
-                delDict.Add("A", new List<EventHandlerDelegate>());
+            if (!delDict1.ContainsKey("Cinema"))
+                delDict1.Add("A", new List<EventHandlerDelegate>());
 
-            List<EventHandlerDelegate> list2 = delDict["Cinema"];
+            List<EventHandlerDelegate> list2 = delDict1["Cinema"];
             list2.Add(DoSomethingC);
+
+            /******************** Demo Dictionary of List of Delegate(s) mapped to EventCategoryType ********************/
+
+            //declare a dictionary, delDict, which stores [string, list of EventHandlerDelegate delegates]
+            Dictionary<EventCategoryType, List<EventHandlerDelegate>> delDict2
+                                   = new Dictionary<EventCategoryType, List<EventHandlerDelegate>>();
+
+            EventCategoryType categoryType = EventCategoryType.Menu;
+
+            if (!delDict2.ContainsKey(categoryType))
+                delDict2.Add(categoryType, new List<EventHandlerDelegate>());
+
+            List<EventHandlerDelegate> list3 = delDict2[categoryType];
+            list3.Add(DoSomethingD);
+
+
+
+
+
+
+
             base.Initialize();
     }
+
+        public void DoSomethingD(string a)
+        {
+            System.Diagnostics.Debug.WriteLine(a);
+        }
+
 
         public void DoSomethingC(string a)
         {
